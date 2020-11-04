@@ -119,10 +119,10 @@ def main():
     for fastaNT in fastaSequencesNT:
         nameNT, sequenceNT = fastaNT.id, str(fastaNT.seq)
         isSequence=0
-	idSequenceNN=nameNT
+        idSequenceNN=nameNT
         for fastaAA in fastaSequencesAA: 
             nameAA, sequenceAA = fastaAA.id, str(fastaAA.seq)
-	    idSequenceAA=nameAA
+            idSequenceAA=nameAA
             if idSequenceAA == idSequenceNN :
                 isSequence=1
                 break;
