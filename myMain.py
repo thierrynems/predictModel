@@ -101,7 +101,7 @@ def main():
 
     #datasetAA="input/nonEssential/degaa-np.dat"
     #datasetNT="input/nonEssential/degseq-np.dat"
-    OrganismName="OrganismDeeply"
+    OrganismName="deeplyPredictResult"
     #Org="dde"
     #df = pandas.read_table(dataset,sep= '\t', header='infer')
 
