@@ -166,8 +166,8 @@ def main():
                 decision="NE"
             #loaded_model.predict_classes
             testPredLabelRev = np.argmax(resultPrediction, axis=1)
-            print("argmax= "+str(testPredLabelRev))
-            print("\n")
+            #print("argmax= "+str(testPredLabelRev))
+            #print("\n")
             line= str(idSequenceNN)+";"+str(E_score)+";"+str(NE_score)+";"+str(decision)+"\n"
             print(line)
             file.write(str(line))
@@ -184,84 +184,6 @@ def main():
             #print(probs)
     file.close()
     sys.exit()
-    # get features and build training/testing dataset
-    data = ProcessData(read, feat, paramDict['trainingProp'], option, experimentName)
-
-    # creating file to store evaluation statistics
-    fWrite = open(experimentName + '.tab', 'w')
-    fWrite.write("Experiment Name: " + str(experimentName) + '\n')
-    fWrite.write("Number of training samples: " + str(data.getTrainingData().shape[0]) + '\n')
-    fWrite.write("Number of validation samples: " + str(data.getValidationData().shape[0]) + '\n')
-    fWrite.write("Number of testing samples: " + str(data.getTestingData().shape[0]) + '\n')
-    fWrite.write("Number of features: " + str(data.getTrainingData().shape[1]) + '\n')
-    fWrite.write("Iteration" + "\t" + "ROC_AUC" + "\t" + "Avg. Precision" + "\t" +
-                 "Sensitivity" + "\t" + "Specificity" + "\t" + "PPV" + "\t" + "Accuracy" + "\n")
-
-    # dict to store evaluation statistics to calculate average values
-    evaluationValueForAvg = {
-        'roc_auc': 0.,
-        'precision': 0.,
-        'sensitivity': 0.,
-        'specificity': 0.,
-        'PPV': 0.,
-        'accuracy': 0.
-    }
-
-    # build DNN model
-    if os.path.exists(experimentName + 'True_positives.txt'):
-        os.remove(experimentName + 'True_positives.txt')
-    if os.path.exists(experimentName + 'False_positives.txt'):
-        os.remove(experimentName + 'False_positives.txt')
-    if os.path.exists(experimentName + 'Thresholds.txt'):
-        os.remove(experimentName + 'Thresholds.txt')
-
-    f_tp = open(experimentName + 'True_positives.txt', 'a')
-    f_fp = open(experimentName + 'False_positives.txt', 'a')
-    f_th = open(experimentName + 'Thresholds.txt', 'a')
-
-    for i in range(0, paramDict['repeat']):
-        print('Iteration', i)
-        model = BuildDNNModel(data, paramDict['bins'], f_tp, f_fp, f_th)
-         
-        evaluationDict = model.getEvaluationStat()
-
-        print(evaluationDict)
-
-        writeEvaluationStat(evaluationDict, fWrite, i + 1)
-
-        evaluationValueForAvg['roc_auc'] += evaluationDict['roc_auc']
-        evaluationValueForAvg['precision'] += evaluationDict['precision']
-        evaluationValueForAvg['sensitivity'] += evaluationDict['sensitivity']
-        evaluationValueForAvg['specificity'] += evaluationDict['specificity']
-        evaluationValueForAvg['PPV'] += evaluationDict['PPV']
-        evaluationValueForAvg['accuracy'] += evaluationDict['accuracy']
-
-    for value in evaluationValueForAvg:
-        evaluationValueForAvg[value] = float(evaluationValueForAvg[value]) / paramDict['repeat']
-
-    writeEvaluationStat(evaluationValueForAvg, fWrite, 'Avg.')
-    fWrite.write("\n")
-    fWrite.write('Batch size:' + str(evaluationDict['batch_size']) + '\n')
-    fWrite.write('Activation:' + str(evaluationDict['activation']) + '\n')
-    fWrite.write('Dropout:' + str(evaluationDict['dropout']) + '\n')
-
-    end_time = time.time()
-    fWrite.write("Execution time: " + str(end_time - start_time) + " sec.")
-    fWrite.close()
-    # f_imp.close()
-
-    f_tp.close()
-    f_fp.close()
-    f_th.close()
-
-
-# writes the evaluation statistics
-def writeEvaluationStat(evaluationDict, fWrite, iteration):
-    fWrite.write(str(iteration) + "\t" + str(evaluationDict['roc_auc']) + "\t" +
-                 str(evaluationDict['precision']) + '\t' + str(evaluationDict['sensitivity']) + '\t' +
-                 str(evaluationDict['specificity']) + '\t' + str(evaluationDict['PPV']) + '\t' +
-                 str(evaluationDict['accuracy']) + '\n')
-
-
+   
 if __name__ == "__main__":
     main()
