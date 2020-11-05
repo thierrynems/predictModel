@@ -153,7 +153,7 @@ def main():
             ##model de prediction 
             ################################Old load model 3333 #######################################
             
-            modelPath=listModel[modelFile]
+            modelPath="ModelTrain/"+listModel[modelFile]
             loaded_model = load_model(modelPath)
             resultPrediction=loaded_model.predict(dataMatrix)
 	   # print(resultPrediction.shape)
