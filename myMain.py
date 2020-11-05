@@ -168,7 +168,7 @@ def main():
             testPredLabelRev = np.argmax(resultPrediction, axis=1)
             print("argmax= "+str(testPredLabelRev))
             print("\n")
-            line= str(Org)+";"+str(idSequenceNN)+";"+str(E_score)+";"+str(NE_score)+";"+str(decision)+"\n"
+            line= str(idSequenceNN)+";"+str(E_score)+";"+str(NE_score)+";"+str(decision)+"\n"
             print(line)
             file.write(str(line))
             ######################################################################
