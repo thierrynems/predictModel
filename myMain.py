@@ -44,7 +44,7 @@ paramDictModel = {
 
 datasetNT = sys.argv[1]
 datasetAA = sys.argv[2]
-modelFile = int(sys.argv[3]) -1
+modelFile = int(sys.argv[3])
 
 #list des modeles
 listModel=("deeplyTrain9deeply-model.h5","sgsTrain9deeply-model.h5","deepHE9deeply-model.h5")
@@ -165,11 +165,11 @@ def main():
             else: 
                 decision="NE"
             #loaded_model.predict_classes
-            print(idSequenceNN+"=>"+resultPrediction)
             testPredLabelRev = np.argmax(resultPrediction, axis=1)
             print("argmax= "+str(testPredLabelRev))
             print("\n")
             line= str(Org)+";"+str(idSequenceNN)+";"+str(E_score)+";"+str(NE_score)+";"+str(decision)+"\n"
+            print(line)
             file.write(str(line))
             ######################################################################
             #prediction=loaded_model.predict_classes(dataMatrix)
