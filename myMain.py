@@ -45,8 +45,9 @@ paramDictModel = {
 datasetNT = sys.argv[1]
 datasetAA = sys.argv[2]
 modelFile = int(sys.argv[3])
+modelFileIndex=0
 if modelFile > 0 :
-  modelFile = modelFile-1
+  modelFileIndex = modelFile-1
 
 persoModel = sys.argv[4]
 
@@ -160,7 +161,7 @@ def main():
             #test choice of user
             modelPath=""
             if modelFile  > 0: 
-              modelPath="ModelTrain/"+listModel[modelFile]
+              modelPath="ModelTrain/"+listModel[modelFileIndex]
             else:
               modelPath="ModelTrain/"+persoModel
             loaded_model = load_model(modelPath)
