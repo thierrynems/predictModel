@@ -101,7 +101,7 @@ def main():
 
     #datasetAA="input/nonEssential/degaa-np.dat"
     #datasetNT="input/nonEssential/degseq-np.dat"
-    OrganismName="deeplyPredictResult"
+    OrganismName="deeplyFeatureEngineering"
     #Org="dde"
     #df = pandas.read_table(dataset,sep= '\t', header='infer')
 
@@ -116,6 +116,7 @@ def main():
     file = open(filename, "w")
     fastaSequencesNT = SeqIO.parse(open(datasetNT), 'fasta')
     fastaSequencesAA = SeqIO.parse(open(datasetAA), 'fasta')
+    featureSeq=list()
     for fastaNT in fastaSequencesNT:
         nameNT, sequenceNT = fastaNT.id, str(fastaNT.seq)
         isSequence=0
@@ -134,6 +135,7 @@ def main():
             feat.getFeaturesSeq(paramDict['bins'],nameNT)
             #combiner toutes les features
             dataToPredict=getGeneFeatTableSeq(feat, nameNT)
+            featureSeq.append(dataToPredict)
             #myData=np.array(dataToPredict)
             #myData.append(dataToPredict[:])
             ####################################
@@ -143,8 +145,8 @@ def main():
             #sys.exit()
             ################################""""""
             #myData=myData.reshape(1,-1) 
-            dataMatrix=getScaledData(myData)
-            dataMatrix=dataMatrix.reshape(1,-1)
+            #dataMatrix=getScaledData(myData)
+            #dataMatrix=dataMatrix.reshape(1,-1)
             #dataMatrix=dataMatrix.ravel()
             #print("#########################################")
             #print(dataMatrix)
@@ -152,37 +154,8 @@ def main():
             #sys.exit()
             ##model de prediction 
             ################################Old load model 3333 #######################################
-            
-            modelPath="ModelTrain/"+listModel[modelFile]
-            loaded_model = load_model(modelPath)
-            resultPrediction=loaded_model.predict(dataMatrix)
-	   # print(resultPrediction.shape)
-	   # sys.exit()
-            E_score=resultPrediction[0][1]
-            NE_score=resultPrediction[0][0]
-            if E_score>=0.5: 
-                decision="E"
-            else: 
-                decision="NE"
-            #loaded_model.predict_classes
-            testPredLabelRev = np.argmax(resultPrediction, axis=1)
-            #print("argmax= "+str(testPredLabelRev))
-            #print("\n")
-            line= str(idSequenceNN)+";"+str(E_score)+";"+str(NE_score)+";"+str(decision)+"\n"
-            print(line)
-            file.write(str(line))
-            ######################################################################
-            #prediction=loaded_model.predict_classes(dataMatrix)
-            #print(prediction)
-            #probs = loaded_model.predict_proba(dataMatrix)
-            #print(probs[:, 1])
-
-            ###################################################################
-            #testLabelRev = np.argmax(resultPrediction, axis=1)
-            #print(testLabelRev)
-            #probs = loaded_model.predict_proba(mydata)
-            #print(probs)
     file.close()
+    print(featureSeq)
     sys.exit()
    
 if __name__ == "__main__":
