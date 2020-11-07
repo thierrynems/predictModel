@@ -44,7 +44,11 @@ paramDictModel = {
 
 datasetNT = sys.argv[1]
 datasetAA = sys.argv[2]
-modelFile = int(sys.argv[3])-1
+modelFile = int(sys.argv[3])
+if modelFile > 0 :
+  modelFile = modelFile-1
+
+persoModel = sys.argv[4]
 
 #list des modeles
 listModel=("deeplyTrain9deeply-model.h5","sgsTrain9deeply-model.h5","deepHE9deeply-model.h5")
@@ -111,9 +115,10 @@ def main():
     #else: 
     #	print("Creation du repertoire "+ baseDir)
     #	os.mkdir(baseDir);
-
+    headerLine= "Gene,E_score,NE_Socre,Decision \n"
     filename=str(OrganismName)+".csv"
     file = open(filename, "w")
+    file.write(str(headerLine))
     fastaSequencesNT = SeqIO.parse(open(datasetNT), 'fasta')
     fastaSequencesAA = SeqIO.parse(open(datasetAA), 'fasta')
     for fastaNT in fastaSequencesNT:
@@ -152,9 +157,14 @@ def main():
             #sys.exit()
             ##model de prediction 
             ################################Old load model 3333 #######################################
-            
-            modelPath="ModelTrain/"+listModel[modelFile]
+            #test choice of user
+            modelPath=""
+            if modelFile  > 0: 
+              modelPath="ModelTrain/"+listModel[modelFile]
+            else:
+              modelPath="ModelTrain/"+persoModel
             loaded_model = load_model(modelPath)
+            print("Model load: "+modelPath)
             resultPrediction=loaded_model.predict(dataMatrix)
 	   # print(resultPrediction.shape)
 	   # sys.exit()
@@ -168,7 +178,7 @@ def main():
             testPredLabelRev = np.argmax(resultPrediction, axis=1)
             #print("argmax= "+str(testPredLabelRev))
             #print("\n")
-            line= str(idSequenceNN)+";"+str(E_score)+";"+str(NE_score)+";"+str(decision)+"\n"
+            line= str(idSequenceNN)+","+str(E_score)+","+str(NE_score)+","+str(decision)+"\n"
             print(line)
             file.write(str(line))
             ######################################################################
