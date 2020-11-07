@@ -6,7 +6,7 @@
 import sys
 import time
 import os
-
+import pandas as pd
 # import from other class
 from AnalyzeParameter import *
 from FileProcessing import *
@@ -101,6 +101,8 @@ def main():
     #datasetAA="input/nonEssential/degaa-np.dat"
     #datasetNT="input/nonEssential/degseq-np.dat"
     OrganismName="deeplyFeatureEngineering"
+    #column of matrix of feature
+    columnFeat=['NT-Length','TTT', 'TTC', 'TTA', 'TTG', 'CTT','CTC', 'CTA', 'CTG', 'ATT', 'ATC','ATA', 'ATG', 'GTT', 'GTC', 'GTA','GTG', 'TAT', 'TAC', 'TAA', 'TAG','CAT', 'CAC', 'CAA', 'CAG', 'AAT','AAC', 'AAA', 'AAG', 'GAT', 'GAC','GAA', 'GAG', 'TCT', 'TCC', 'TCA','TCG', 'CCT', 'CCC', 'CCA', 'CCG','ACT', 'ACC', 'ACA', 'ACG', 'GCT','GCC', 'GCA', 'GCG', 'TGT', 'TGC','TGA', 'TGG', 'CGT', 'CGC', 'CGA','CGG', 'AGT', 'AGC', 'AGA', 'AGG','GGT', 'GGC', 'GGA', 'GGG','GC','CIA','RCSU','A', 'R', 'N', 'D','C', 'Q', 'E', 'G','H', 'I', 'L', 'K','M', 'F', 'P', 'S','T', 'W', 'Y', 'V','AA-Length'];
     #Org="dde"
     #df = pandas.read_table(dataset,sep= '\t', header='infer')
 
@@ -112,10 +114,11 @@ def main():
     #	os.mkdir(baseDir);
 
     filename=str(OrganismName)+".csv"
-    file = open(filename, "w")
+    #file = open(filename, "w")
     fastaSequencesNT = SeqIO.parse(open(datasetNT), 'fasta')
     fastaSequencesAA = SeqIO.parse(open(datasetAA), 'fasta')
     featureSeq=list()
+    geneList=list()
     for fastaNT in fastaSequencesNT:
         nameNT, sequenceNT = fastaNT.id, str(fastaNT.seq)
         isSequence=0
@@ -129,7 +132,8 @@ def main():
         #print("NT: "+idSequenceNN+" AA: "+idSequenceNN)
         if isSequence == 1: # les deux sequence existe 
             sequenceNT = sequenceNT.upper()
-            sequenceAA = sequenceAA.upper() 
+            sequenceAA = sequenceAA.upper()
+            geneList.append(nameNT) 
             feat = FeatureProcessingSeq(read,sequenceNT,sequenceAA)
             feat.getFeaturesSeq(paramDict['bins'],nameNT)
             #combiner toutes les features
@@ -153,8 +157,12 @@ def main():
             #sys.exit()
             ##model de prediction 
             ################################Old load model 3333 #######################################
-    file.close()
-    print(featureSeq)
+    #file.close()
+    myData=np.array(featureSeq, dtype='f')
+    #df = pd.DataFrame(data = numpyArray, index = ["Row_1", "Row_2"], columns = ["Column_1","Column_2", "Column_3"]) 
+    df = pd.DataFrame(data = myData,index = geneList , columns = columnFeat) 
+    df.to_csv(filename, index=True)
+    print(geneList)
     sys.exit()
    
 if __name__ == "__main__":
