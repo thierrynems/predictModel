@@ -162,7 +162,7 @@ def main():
     #df = pd.DataFrame(data = numpyArray, index = ["Row_1", "Row_2"], columns = ["Column_1","Column_2", "Column_3"]) 
     df = pd.DataFrame(data = myData,index = geneList , columns = columnFeat) 
     df.to_csv(filename, index=True)
-    print(geneList)
+    #print(geneList)
     sys.exit()
    
 if __name__ == "__main__":
