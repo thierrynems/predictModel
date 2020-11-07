@@ -42,8 +42,10 @@ paramDictModel = {
     'mode': 'max'
 }
 
-datasetNT = sys.argv[1]
-datasetAA = sys.argv[2]
+#datasetNT = sys.argv[1]
+#datasetAA = sys.argv[2]
+datasetNT = "input/seqGene.fasta"
+datasetAA = "input/seqProtein.fasta"
 
 #proportion 'trainingProp': 0.8,
 #'trainingProp': 0.8, //proportion data d'entrainement 
