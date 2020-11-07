@@ -44,10 +44,7 @@ paramDictModel = {
 
 datasetNT = sys.argv[1]
 datasetAA = sys.argv[2]
-modelFile = int(sys.argv[3])-1
 
-#list des modeles
-listModel=("deeplyTrain9deeply-model.h5","sgsTrain9deeply-model.h5","deepHE9deeply-model.h5")
 #proportion 'trainingProp': 0.8,
 #'trainingProp': 0.8, //proportion data d'entrainement 
 
